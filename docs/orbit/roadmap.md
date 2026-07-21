@@ -61,7 +61,7 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] **My Issues**: issues atribuídas ao usuário logado.
 - [x] **Issue Detail**: página dedicada com título, descrição, status, priority, type e estimate.
 - [x] **Comentários** e **timeline de atividade/histórico** conectados à API.
-- [ ] `mutations.ts` com optimistic updates para status/assignee/priority.
+- [x] Mutation otimista para status/priority; assignee fica para a integração de membros.
 - [ ] Componentes de UI: Badge de status/priority/type, Avatar de assignee, Empty/Skeleton.
 
 ### Fatia 4 — Board Kanban (DnD)  ·  `[ ] pendente`

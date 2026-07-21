@@ -3,12 +3,16 @@ import { ArrowLeftIcon, Clock3Icon, MessageSquareIcon, SendIcon } from "lucide-r
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { createComment } from "@/features/issues/api";
+import {
+  createComment,
+  updateIssue,
+  type IssuePriority,
+  type IssueStatus,
+} from "@/features/issues/api";
 import {
   activityQueryOptions,
   commentsQueryOptions,
@@ -36,6 +40,23 @@ function IssueDetail() {
         client.invalidateQueries({ queryKey: activityQueryOptions(issueId).queryKey }),
       ]);
     },
+  });
+  const updateMutation = useMutation({
+    mutationFn: (input: Partial<{ status: IssueStatus; priority: IssuePriority }>) =>
+      updateIssue(issueId, input),
+    onMutate: async (input) => {
+      await client.cancelQueries({ queryKey: issueQueryOptions(issueId).queryKey });
+      const previous = client.getQueryData(issueQueryOptions(issueId).queryKey);
+      client.setQueryData(issueQueryOptions(issueId).queryKey, (current) =>
+        current ? { ...current, ...input } : current,
+      );
+      return { previous };
+    },
+    onError: (_error, _input, context) => {
+      if (context?.previous)
+        client.setQueryData(issueQueryOptions(issueId).queryKey, context.previous);
+    },
+    onSettled: () => client.invalidateQueries({ queryKey: issueQueryOptions(issueId).queryKey }),
   });
 
   if (issue.isPending)
@@ -119,15 +140,42 @@ function IssueDetail() {
             <CardHeader>
               <CardTitle className="text-base">Detalhes</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div className="flex justify-between">
+            <CardContent className="space-y-4 text-sm">
+              <label className="flex items-center justify-between gap-3">
                 <span className="text-muted-foreground">Status</span>
-                <Badge variant="outline">{current.status}</Badge>
-              </div>
-              <div className="flex justify-between">
+                <select
+                  value={current.status}
+                  disabled={updateMutation.isPending}
+                  onChange={(event) =>
+                    updateMutation.mutate({ status: event.target.value as IssueStatus })
+                  }
+                  className="rounded-md border bg-background px-2 py-1 text-xs"
+                >
+                  <option value="backlog">Backlog</option>
+                  <option value="todo">A fazer</option>
+                  <option value="in_progress">Em andamento</option>
+                  <option value="in_review">Em revisão</option>
+                  <option value="done">Concluída</option>
+                  <option value="closed">Fechada</option>
+                </select>
+              </label>
+              <label className="flex items-center justify-between gap-3">
                 <span className="text-muted-foreground">Prioridade</span>
-                <span>{current.priority}</span>
-              </div>
+                <select
+                  value={current.priority}
+                  disabled={updateMutation.isPending}
+                  onChange={(event) =>
+                    updateMutation.mutate({ priority: event.target.value as IssuePriority })
+                  }
+                  className="rounded-md border bg-background px-2 py-1 text-xs"
+                >
+                  <option value="no_priority">Sem prioridade</option>
+                  <option value="low">Baixa</option>
+                  <option value="medium">Média</option>
+                  <option value="high">Alta</option>
+                  <option value="urgent">Urgente</option>
+                </select>
+              </label>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Tipo</span>
                 <span>{current.type}</span>

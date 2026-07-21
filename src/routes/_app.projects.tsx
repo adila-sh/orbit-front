@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { FolderKanbanIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -37,23 +37,25 @@ function Projects() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {projects.data.map((project) => (
-            <Card key={project.id}>
-              <CardHeader className="flex-row items-center gap-3 space-y-0">
-                <span
-                  className="grid size-9 place-items-center rounded-lg text-sm font-semibold text-white"
-                  style={{ backgroundColor: project.color ?? "#8b5cf6" }}
-                >
-                  {project.icon ?? <FolderKanbanIcon className="size-4" />}
-                </span>
-                <div className="min-w-0">
-                  <CardTitle className="truncate text-base">{project.name}</CardTitle>
-                  <p className="font-mono text-xs text-muted-foreground">{project.key}</p>
-                </div>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                {project.description ?? "Sem descrição."}
-              </CardContent>
-            </Card>
+            <Link key={project.id} to="/projects/$projectId" params={{ projectId: project.id }}>
+              <Card className="h-full transition-colors hover:border-primary/50">
+                <CardHeader className="flex-row items-center gap-3 space-y-0">
+                  <span
+                    className="grid size-9 place-items-center rounded-lg text-sm font-semibold text-white"
+                    style={{ backgroundColor: project.color ?? "#8b5cf6" }}
+                  >
+                    {project.icon ?? <FolderKanbanIcon className="size-4" />}
+                  </span>
+                  <div className="min-w-0">
+                    <CardTitle className="truncate text-base">{project.name}</CardTitle>
+                    <p className="font-mono text-xs text-muted-foreground">{project.key}</p>
+                  </div>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  {project.description ?? "Sem descrição."}
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       )}

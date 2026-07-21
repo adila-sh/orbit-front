@@ -101,3 +101,20 @@ export async function createComment(issueId: string, body: string) {
   if (error) throw new Error(error.message ?? "Não foi possível publicar o comentário.");
   return data;
 }
+
+export async function updateIssue(
+  issueId: string,
+  input: Partial<
+    Pick<
+      Issue,
+      "status" | "priority" | "type" | "assigneeId" | "title" | "description" | "estimate"
+    >
+  >,
+) {
+  const { data, error } = await apiClient<Issue>(`/v1/issues/${issueId}`, {
+    method: "PATCH",
+    body: input,
+  });
+  if (error) throw new Error(error.message ?? "Não foi possível atualizar a issue.");
+  return data;
+}
