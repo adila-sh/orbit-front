@@ -1,7 +1,7 @@
 # Adila Orbit — Roadmap do Frontend
 
 **Data:** 2026-07-21
-**Status:** Planejamento
+**Status:** Fatia 2 em andamento
 **Escopo deste doc:** objetivos de **frontend** (`front/`). Objetivos de backend em
 [`back/docs/orbit/roadmap.md`](../../../back/docs/orbit/roadmap.md).
 
@@ -43,15 +43,15 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 > Fatia 1 é **backend puro** (dados + API + seed) — sem trabalho de frontend.
 > O frontend começa na Fatia 2, consumindo a API real.
 
-### Fatia 2 — Shell do app + contexto de workspace  ·  `[ ] pendente`
+### Fatia 2 — Shell do app + contexto de workspace  ·  `🟡 em andamento`
 
-- [ ] Seletor de workspace na sidebar (lista via plugin `organization`; troca a org ativa).
-- [ ] Atualizar `nav.ts`/`_app.tsx` com os itens: Dashboard, Projects, My Issues, Backlog, Boards, Roadmap, Settings.
+- [x] Seletor de workspace na sidebar (lista via plugin `organization`; troca a org ativa).
+- [x] Atualizar `nav.ts`/`_app.tsx` com os itens: Dashboard, Projects, My Issues, Backlog, Boards, Roadmap, Settings.
 - [ ] Sidebar redimensionável + top navigation + breadcrumb.
 - [ ] `features/workspace/` — `queries.ts` (workspace atual, lista de projetos) + provider/contexto de workspace ativo.
-- [ ] Rotas TanStack Router base: `_app.projects`, `_app.issues` (My Issues), `_app.backlog`, `_app.board`, `_app.roadmap`, `_app.settings` (placeholders ligados à API).
-- [ ] `lib/api.ts` estendido / `features/*/api.ts` para os endpoints `/v1` do Orbit.
-- [ ] Estados: Loading Skeleton e Empty State consistentes.
+- [x] Rotas TanStack Router base: `_app.projects`, `_app.issues` (My Issues), `_app.backlog`, `_app.board`, `_app.roadmap`, `_app.settings` (placeholders; Projects ligado à API).
+- [x] `features/workspace/api.ts` conectado ao endpoint `/v1/projects` via `lib/api.ts`.
+- [x] Estados: Loading Skeleton e Empty State consistentes na lista de Projects.
 
 ### Fatia 3 — Backlog + Issue Detail + Comentários  ·  `[ ] pendente`
 

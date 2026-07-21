@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
 
 import { APP_NAV } from "@/components/app/nav";
+import { WorkspaceSwitcher } from "@/features/workspace/workspace-switcher";
 import { UserMenu } from "@/components/app/user-menu";
 import {
   Sidebar,
@@ -39,6 +40,10 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
         <SidebarTrigger className="shrink-0" />
       </SidebarHeader>
+
+      <div className="px-2 py-2 group-data-[collapsible=icon]:hidden">
+        <WorkspaceSwitcher />
+      </div>
 
       <SidebarContent>
         <SidebarGroup>
