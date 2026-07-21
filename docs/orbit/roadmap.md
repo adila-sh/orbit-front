@@ -54,13 +54,13 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] `features/workspace/api.ts` conectado ao endpoint `/v1/projects` via `lib/api.ts`.
 - [x] Estados: Loading Skeleton e Empty State consistentes na lista de Projects.
 
-### Fatia 3 — Backlog + Issue Detail + Comentários  ·  `[ ] pendente`
+### Fatia 3 — Backlog + Issue Detail + Comentários  ·  `🟡 em andamento`
 
-- [ ] **Projects**: lista de projetos (cards com ícone/cor/status) + Project Overview.
-- [ ] **Backlog**: lista (TanStack Table / `DataTable`) com filtros, ordenação, busca, quick-edit e bulk actions.
-- [ ] **My Issues**: issues atribuídas ao usuário logado.
-- [ ] **Issue Detail** (drawer à direita **e** página dedicada): título, descrição (markdown placeholder), status, priority, type, assignee, labels, milestone, dueDate, estimate.
-- [ ] **Comentários** (markdown + menções placeholder) e **timeline de atividade/histórico**.
+- [x] **Projects**: lista de projetos (cards com ícone/cor/status) + Project Overview inicial.
+- [x] **Backlog**: lista com filtro de status e busca por título/identifier.
+- [x] **My Issues**: issues atribuídas ao usuário logado.
+- [x] **Issue Detail**: página dedicada com título, descrição, status, priority, type e estimate.
+- [x] **Comentários** e **timeline de atividade/histórico** conectados à API.
 - [ ] `mutations.ts` com optimistic updates para status/assignee/priority.
 - [ ] Componentes de UI: Badge de status/priority/type, Avatar de assignee, Empty/Skeleton.
 
