@@ -2,7 +2,8 @@ import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 import { AppSidebar } from "@/components/app/app-sidebar";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppTopbar } from "@/components/app/app-topbar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 import { useAppStore } from "@/stores/app-store";
@@ -36,9 +37,8 @@ function AppLayout() {
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
       <AppSidebar />
       <SidebarInset>
+        <AppTopbar />
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-          {/* No desktop o toggle vive dentro da sidebar; no mobile abre o Sheet. */}
-          <SidebarTrigger className="mb-4 md:hidden" />
           <Outlet />
         </main>
       </SidebarInset>

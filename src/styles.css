@@ -1,6 +1,6 @@
+@import "https://assets.adila.co/adila-fonts.css";
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "https://assets.adila.co/adila-fonts.css";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));

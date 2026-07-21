@@ -47,7 +47,8 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 
 - [x] Seletor de workspace na sidebar (lista via plugin `organization`; troca a org ativa).
 - [x] Atualizar `nav.ts`/`_app.tsx` com os itens: Dashboard, Projects, My Issues, Backlog, Boards, Roadmap, Settings.
-- [ ] Sidebar redimensionável + top navigation + breadcrumb.
+- [ ] Sidebar redimensionável.
+- [x] Top navigation + breadcrumb.
 - [ ] `features/workspace/` — `queries.ts` (workspace atual, lista de projetos) + provider/contexto de workspace ativo.
 - [x] Rotas TanStack Router base: `_app.projects`, `_app.issues` (My Issues), `_app.backlog`, `_app.board`, `_app.roadmap`, `_app.settings` (placeholders; Projects ligado à API).
 - [x] `features/workspace/api.ts` conectado ao endpoint `/v1/projects` via `lib/api.ts`.
