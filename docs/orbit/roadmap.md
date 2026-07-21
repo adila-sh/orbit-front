@@ -1,7 +1,7 @@
 # Adila Orbit — Roadmap do Frontend
 
 **Data:** 2026-07-21
-**Status:** Planejamento
+**Status:** Fatia 2 em andamento
 **Escopo deste doc:** objetivos de **frontend** (`front/`). Objetivos de backend em
 [`back/docs/orbit/roadmap.md`](../../../back/docs/orbit/roadmap.md).
 
@@ -43,23 +43,24 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 > Fatia 1 é **backend puro** (dados + API + seed) — sem trabalho de frontend.
 > O frontend começa na Fatia 2, consumindo a API real.
 
-### Fatia 2 — Shell do app + contexto de workspace  ·  `[ ] pendente`
+### Fatia 2 — Shell do app + contexto de workspace  ·  `🟡 em andamento`
 
-- [ ] Seletor de workspace na sidebar (lista via plugin `organization`; troca a org ativa).
-- [ ] Atualizar `nav.ts`/`_app.tsx` com os itens: Dashboard, Projects, My Issues, Backlog, Boards, Roadmap, Settings.
-- [ ] Sidebar redimensionável + top navigation + breadcrumb.
+- [x] Seletor de workspace na sidebar (lista via plugin `organization`; troca a org ativa).
+- [x] Atualizar `nav.ts`/`_app.tsx` com os itens: Dashboard, Projects, My Issues, Backlog, Boards, Roadmap, Settings.
+- [ ] Sidebar redimensionável.
+- [x] Top navigation + breadcrumb.
 - [ ] `features/workspace/` — `queries.ts` (workspace atual, lista de projetos) + provider/contexto de workspace ativo.
-- [ ] Rotas TanStack Router base: `_app.projects`, `_app.issues` (My Issues), `_app.backlog`, `_app.board`, `_app.roadmap`, `_app.settings` (placeholders ligados à API).
-- [ ] `lib/api.ts` estendido / `features/*/api.ts` para os endpoints `/v1` do Orbit.
-- [ ] Estados: Loading Skeleton e Empty State consistentes.
+- [x] Rotas TanStack Router base: `_app.projects`, `_app.issues` (My Issues), `_app.backlog`, `_app.board`, `_app.roadmap`, `_app.settings` (placeholders; Projects ligado à API).
+- [x] `features/workspace/api.ts` conectado ao endpoint `/v1/projects` via `lib/api.ts`.
+- [x] Estados: Loading Skeleton e Empty State consistentes na lista de Projects.
 
-### Fatia 3 — Backlog + Issue Detail + Comentários  ·  `[ ] pendente`
+### Fatia 3 — Backlog + Issue Detail + Comentários  ·  `🟡 em andamento`
 
-- [ ] **Projects**: lista de projetos (cards com ícone/cor/status) + Project Overview.
-- [ ] **Backlog**: lista (TanStack Table / `DataTable`) com filtros, ordenação, busca, quick-edit e bulk actions.
-- [ ] **My Issues**: issues atribuídas ao usuário logado.
-- [ ] **Issue Detail** (drawer à direita **e** página dedicada): título, descrição (markdown placeholder), status, priority, type, assignee, labels, milestone, dueDate, estimate.
-- [ ] **Comentários** (markdown + menções placeholder) e **timeline de atividade/histórico**.
+- [x] **Projects**: lista de projetos (cards com ícone/cor/status) + Project Overview inicial.
+- [x] **Backlog**: lista com filtro de status e busca por título/identifier.
+- [x] **My Issues**: issues atribuídas ao usuário logado.
+- [x] **Issue Detail**: página dedicada com título, descrição, status, priority, type e estimate.
+- [x] **Comentários** e **timeline de atividade/histórico** conectados à API.
 - [ ] `mutations.ts` com optimistic updates para status/assignee/priority.
 - [ ] Componentes de UI: Badge de status/priority/type, Avatar de assignee, Empty/Skeleton.
 

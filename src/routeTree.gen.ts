@@ -16,9 +16,15 @@ import { Route as MarketingIndexRouteImport } from './routes/_marketing.index'
 import { Route as MarketingTermsRouteImport } from './routes/_marketing.terms'
 import { Route as MarketingPrivacyRouteImport } from './routes/_marketing.privacy'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppRoadmapRouteImport } from './routes/_app.roadmap'
+import { Route as AppProjectsRouteImport } from './routes/_app.projects'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppMembersRouteImport } from './routes/_app.members'
+import { Route as AppIssuesRouteImport } from './routes/_app.issues'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppBoardRouteImport } from './routes/_app.board'
+import { Route as AppBacklogRouteImport } from './routes/_app.backlog'
+import { Route as AppIssuesIssueIdRouteImport } from './routes/_app.issues.$issueId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -53,6 +59,16 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRoadmapRoute = AppRoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProjectsRoute = AppProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -63,78 +79,134 @@ const AppMembersRoute = AppMembersRouteImport.update({
   path: '/members',
   getParentRoute: () => AppRoute,
 } as any)
+const AppIssuesRoute = AppIssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBoardRoute = AppBoardRouteImport.update({
+  id: '/board',
+  path: '/board',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBacklogRoute = AppBacklogRouteImport.update({
+  id: '/backlog',
+  path: '/backlog',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppIssuesIssueIdRoute = AppIssuesIssueIdRouteImport.update({
+  id: '/$issueId',
+  path: '/$issueId',
+  getParentRoute: () => AppIssuesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MarketingIndexRoute
   '/auth': typeof AuthRoute
+  '/backlog': typeof AppBacklogRoute
+  '/board': typeof AppBoardRoute
   '/dashboard': typeof AppDashboardRoute
+  '/issues': typeof AppIssuesRouteWithChildren
   '/members': typeof AppMembersRoute
   '/profile': typeof AppProfileRoute
+  '/projects': typeof AppProjectsRoute
+  '/roadmap': typeof AppRoadmapRoute
   '/settings': typeof AppSettingsRoute
   '/privacy': typeof MarketingPrivacyRoute
   '/terms': typeof MarketingTermsRoute
+  '/issues/$issueId': typeof AppIssuesIssueIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof MarketingIndexRoute
   '/auth': typeof AuthRoute
+  '/backlog': typeof AppBacklogRoute
+  '/board': typeof AppBoardRoute
   '/dashboard': typeof AppDashboardRoute
+  '/issues': typeof AppIssuesRouteWithChildren
   '/members': typeof AppMembersRoute
   '/profile': typeof AppProfileRoute
+  '/projects': typeof AppProjectsRoute
+  '/roadmap': typeof AppRoadmapRoute
   '/settings': typeof AppSettingsRoute
   '/privacy': typeof MarketingPrivacyRoute
   '/terms': typeof MarketingTermsRoute
+  '/issues/$issueId': typeof AppIssuesIssueIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/_marketing': typeof MarketingRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_app/backlog': typeof AppBacklogRoute
+  '/_app/board': typeof AppBoardRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/issues': typeof AppIssuesRouteWithChildren
   '/_app/members': typeof AppMembersRoute
   '/_app/profile': typeof AppProfileRoute
+  '/_app/projects': typeof AppProjectsRoute
+  '/_app/roadmap': typeof AppRoadmapRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_marketing/privacy': typeof MarketingPrivacyRoute
   '/_marketing/terms': typeof MarketingTermsRoute
   '/_marketing/': typeof MarketingIndexRoute
+  '/_app/issues/$issueId': typeof AppIssuesIssueIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
+    | '/backlog'
+    | '/board'
     | '/dashboard'
+    | '/issues'
     | '/members'
     | '/profile'
+    | '/projects'
+    | '/roadmap'
     | '/settings'
     | '/privacy'
     | '/terms'
+    | '/issues/$issueId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/backlog'
+    | '/board'
     | '/dashboard'
+    | '/issues'
     | '/members'
     | '/profile'
+    | '/projects'
+    | '/roadmap'
     | '/settings'
     | '/privacy'
     | '/terms'
+    | '/issues/$issueId'
   id:
     | '__root__'
     | '/_app'
     | '/_marketing'
     | '/auth'
+    | '/_app/backlog'
+    | '/_app/board'
     | '/_app/dashboard'
+    | '/_app/issues'
     | '/_app/members'
     | '/_app/profile'
+    | '/_app/projects'
+    | '/_app/roadmap'
     | '/_app/settings'
     | '/_marketing/privacy'
     | '/_marketing/terms'
     | '/_marketing/'
+    | '/_app/issues/$issueId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -194,6 +266,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/roadmap': {
+      id: '/_app/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof AppRoadmapRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/projects': {
+      id: '/_app/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof AppProjectsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/profile': {
       id: '/_app/profile'
       path: '/profile'
@@ -208,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMembersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/issues': {
+      id: '/_app/issues'
+      path: '/issues'
+      fullPath: '/issues'
+      preLoaderRoute: typeof AppIssuesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
@@ -215,20 +308,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/board': {
+      id: '/_app/board'
+      path: '/board'
+      fullPath: '/board'
+      preLoaderRoute: typeof AppBoardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/backlog': {
+      id: '/_app/backlog'
+      path: '/backlog'
+      fullPath: '/backlog'
+      preLoaderRoute: typeof AppBacklogRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/issues/$issueId': {
+      id: '/_app/issues/$issueId'
+      path: '/$issueId'
+      fullPath: '/issues/$issueId'
+      preLoaderRoute: typeof AppIssuesIssueIdRouteImport
+      parentRoute: typeof AppIssuesRoute
+    }
   }
 }
 
+interface AppIssuesRouteChildren {
+  AppIssuesIssueIdRoute: typeof AppIssuesIssueIdRoute
+}
+
+const AppIssuesRouteChildren: AppIssuesRouteChildren = {
+  AppIssuesIssueIdRoute: AppIssuesIssueIdRoute,
+}
+
+const AppIssuesRouteWithChildren = AppIssuesRoute._addFileChildren(
+  AppIssuesRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppBacklogRoute: typeof AppBacklogRoute
+  AppBoardRoute: typeof AppBoardRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppIssuesRoute: typeof AppIssuesRouteWithChildren
   AppMembersRoute: typeof AppMembersRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppProjectsRoute: typeof AppProjectsRoute
+  AppRoadmapRoute: typeof AppRoadmapRoute
   AppSettingsRoute: typeof AppSettingsRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppBacklogRoute: AppBacklogRoute,
+  AppBoardRoute: AppBoardRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppIssuesRoute: AppIssuesRouteWithChildren,
   AppMembersRoute: AppMembersRoute,
   AppProfileRoute: AppProfileRoute,
+  AppProjectsRoute: AppProjectsRoute,
+  AppRoadmapRoute: AppRoadmapRoute,
   AppSettingsRoute: AppSettingsRoute,
 }
 
