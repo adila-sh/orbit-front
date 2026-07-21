@@ -24,6 +24,7 @@ import { Route as AppIssuesRouteImport } from './routes/_app.issues'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBoardRouteImport } from './routes/_app.board'
 import { Route as AppBacklogRouteImport } from './routes/_app.backlog'
+import { Route as AppIssuesIssueIdRouteImport } from './routes/_app.issues.$issueId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -98,6 +99,11 @@ const AppBacklogRoute = AppBacklogRouteImport.update({
   path: '/backlog',
   getParentRoute: () => AppRoute,
 } as any)
+const AppIssuesIssueIdRoute = AppIssuesIssueIdRouteImport.update({
+  id: '/$issueId',
+  path: '/$issueId',
+  getParentRoute: () => AppIssuesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MarketingIndexRoute
@@ -105,7 +111,7 @@ export interface FileRoutesByFullPath {
   '/backlog': typeof AppBacklogRoute
   '/board': typeof AppBoardRoute
   '/dashboard': typeof AppDashboardRoute
-  '/issues': typeof AppIssuesRoute
+  '/issues': typeof AppIssuesRouteWithChildren
   '/members': typeof AppMembersRoute
   '/profile': typeof AppProfileRoute
   '/projects': typeof AppProjectsRoute
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AppSettingsRoute
   '/privacy': typeof MarketingPrivacyRoute
   '/terms': typeof MarketingTermsRoute
+  '/issues/$issueId': typeof AppIssuesIssueIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof MarketingIndexRoute
@@ -120,7 +127,7 @@ export interface FileRoutesByTo {
   '/backlog': typeof AppBacklogRoute
   '/board': typeof AppBoardRoute
   '/dashboard': typeof AppDashboardRoute
-  '/issues': typeof AppIssuesRoute
+  '/issues': typeof AppIssuesRouteWithChildren
   '/members': typeof AppMembersRoute
   '/profile': typeof AppProfileRoute
   '/projects': typeof AppProjectsRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AppSettingsRoute
   '/privacy': typeof MarketingPrivacyRoute
   '/terms': typeof MarketingTermsRoute
+  '/issues/$issueId': typeof AppIssuesIssueIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -137,7 +145,7 @@ export interface FileRoutesById {
   '/_app/backlog': typeof AppBacklogRoute
   '/_app/board': typeof AppBoardRoute
   '/_app/dashboard': typeof AppDashboardRoute
-  '/_app/issues': typeof AppIssuesRoute
+  '/_app/issues': typeof AppIssuesRouteWithChildren
   '/_app/members': typeof AppMembersRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/projects': typeof AppProjectsRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/_marketing/privacy': typeof MarketingPrivacyRoute
   '/_marketing/terms': typeof MarketingTermsRoute
   '/_marketing/': typeof MarketingIndexRoute
+  '/_app/issues/$issueId': typeof AppIssuesIssueIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/privacy'
     | '/terms'
+    | '/issues/$issueId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/privacy'
     | '/terms'
+    | '/issues/$issueId'
   id:
     | '__root__'
     | '/_app'
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '/_marketing/privacy'
     | '/_marketing/terms'
     | '/_marketing/'
+    | '/_app/issues/$issueId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -310,14 +322,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBacklogRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/issues/$issueId': {
+      id: '/_app/issues/$issueId'
+      path: '/$issueId'
+      fullPath: '/issues/$issueId'
+      preLoaderRoute: typeof AppIssuesIssueIdRouteImport
+      parentRoute: typeof AppIssuesRoute
+    }
   }
 }
+
+interface AppIssuesRouteChildren {
+  AppIssuesIssueIdRoute: typeof AppIssuesIssueIdRoute
+}
+
+const AppIssuesRouteChildren: AppIssuesRouteChildren = {
+  AppIssuesIssueIdRoute: AppIssuesIssueIdRoute,
+}
+
+const AppIssuesRouteWithChildren = AppIssuesRoute._addFileChildren(
+  AppIssuesRouteChildren,
+)
 
 interface AppRouteChildren {
   AppBacklogRoute: typeof AppBacklogRoute
   AppBoardRoute: typeof AppBoardRoute
   AppDashboardRoute: typeof AppDashboardRoute
-  AppIssuesRoute: typeof AppIssuesRoute
+  AppIssuesRoute: typeof AppIssuesRouteWithChildren
   AppMembersRoute: typeof AppMembersRoute
   AppProfileRoute: typeof AppProfileRoute
   AppProjectsRoute: typeof AppProjectsRoute
@@ -329,7 +360,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppBacklogRoute: AppBacklogRoute,
   AppBoardRoute: AppBoardRoute,
   AppDashboardRoute: AppDashboardRoute,
-  AppIssuesRoute: AppIssuesRoute,
+  AppIssuesRoute: AppIssuesRouteWithChildren,
   AppMembersRoute: AppMembersRoute,
   AppProfileRoute: AppProfileRoute,
   AppProjectsRoute: AppProjectsRoute,

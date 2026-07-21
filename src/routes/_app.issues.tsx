@@ -1,13 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ListTodoIcon } from "lucide-react";
-import { PlaceholderPage } from "@/components/app/placeholder-page";
+import { IssueList } from "@/features/issues/issue-list";
+import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/_app/issues")({
-  component: () => (
-    <PlaceholderPage
-      icon={ListTodoIcon}
-      title="My Issues"
-      description="As issues atribuídas a você aparecerão aqui."
-    />
-  ),
+  component: MyIssues,
 });
+
+function MyIssues() {
+  const { data: session } = authClient.useSession();
+  return (
+    <IssueList
+      title="My Issues"
+      description="Issues atribuídas a você."
+      filters={{ assigneeId: session?.user.id }}
+    />
+  );
+}
