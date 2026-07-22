@@ -6,6 +6,8 @@ import { persist } from "zustand/middleware";
  * local to this browser without mixing them with server state.
  */
 interface AppState {
+  boardView: "table" | "kanban" | "roadmap";
+  setBoardView: (view: AppState["boardView"]) => void;
   /** Whether the desktop app-shell sidebar is expanded. Feeds `SidebarProvider`. */
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
@@ -17,6 +19,8 @@ interface AppState {
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
+      boardView: "kanban",
+      setBoardView: (boardView) => set({ boardView }),
       sidebarOpen: true,
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
       toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
@@ -26,6 +30,7 @@ export const useAppStore = create<AppState>()(
     {
       name: "orbit-ui-preferences",
       partialize: (state) => ({
+        boardView: state.boardView,
         sidebarOpen: state.sidebarOpen,
         sidebarWidth: state.sidebarWidth,
       }),
