@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "prepare": "lefthook install",
+    "prepare": "lefthook install || true",
     "dev": "vite dev --port 5173",
     "generate-routes": "tsr generate",
     "build": "vite build",
