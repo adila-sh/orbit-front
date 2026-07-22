@@ -68,12 +68,7 @@ function DataTableColumnHeader<TData, TValue>({
   }
 
   const sorted = column.getIsSorted();
-  const Icon =
-    sorted === "asc"
-      ? CaretUpIcon
-      : sorted === "desc"
-        ? CaretDownIcon
-        : CaretUpDownIcon;
+  const Icon = sorted === "asc" ? CaretUpIcon : sorted === "desc" ? CaretDownIcon : CaretUpDownIcon;
 
   return (
     <Button
@@ -121,9 +116,7 @@ function DataTableViewOptions<TData>({
               checked={column.getIsVisible()}
               onCheckedChange={(checked) => column.toggleVisibility(!!checked)}
             >
-              {typeof column.columnDef.header === "string"
-                ? column.columnDef.header
-                : column.id}
+              {typeof column.columnDef.header === "string" ? column.columnDef.header : column.id}
             </DropdownMenuCheckboxItem>
           ))}
         </DropdownMenuGroup>
@@ -157,9 +150,7 @@ function DataTableToolbar<TData>({
           className="max-w-xs min-w-48 flex-1"
           placeholder={searchPlaceholder}
           value={(searchableColumn.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            searchableColumn.setFilterValue(event.target.value)
-          }
+          onChange={(event) => searchableColumn.setFilterValue(event.target.value)}
         />
       ) : null}
       {children}
@@ -187,21 +178,14 @@ function DataTablePagination<TData>({
   return (
     <div
       data-slot="data-table-pagination"
-      className={cn(
-        "flex flex-col items-center justify-between gap-3 sm:flex-row",
-        className,
-      )}
+      className={cn("flex flex-col items-center justify-between gap-3 sm:flex-row", className)}
     >
       <span className="text-sm text-muted-foreground">
-        {selected
-          ? `${selected} de ${total} selecionado(s)`
-          : `${total} item(ns)`}
+        {selected ? `${selected} de ${total} selecionado(s)` : `${total} item(ns)`}
       </span>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <div className="flex items-center gap-2">
-          <span className="hidden text-sm text-muted-foreground md:inline">
-            Por página
-          </span>
+          <span className="hidden text-sm text-muted-foreground md:inline">Por página</span>
           <Select
             value={String(table.getState().pagination.pageSize)}
             onValueChange={(value) => table.setPageSize(Number(value))}
@@ -255,9 +239,7 @@ type DataTableProps<TData, TValue> = {
   pageSizes?: number[];
   loading?: boolean;
   empty?: React.ReactNode;
-  toolbar?:
-    | React.ReactNode
-    | ((table: TanStackTable<TData>) => React.ReactNode);
+  toolbar?: React.ReactNode | ((table: TanStackTable<TData>) => React.ReactNode);
   getRowId?: (originalRow: TData, index: number, parent?: Row<TData>) => string;
   onRowClick?: (row: Row<TData>) => void;
   className?: string;
@@ -280,11 +262,8 @@ function DataTable<TData, TValue>({
   tableClassName,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -303,20 +282,12 @@ function DataTable<TData, TValue>({
     initialState: { pagination: { pageSize } },
   });
 
-  const toolbarContent =
-    typeof toolbar === "function" ? toolbar(table) : toolbar;
+  const toolbarContent = typeof toolbar === "function" ? toolbar(table) : toolbar;
 
   return (
-    <div
-      data-slot="data-table"
-      className={cn("flex min-w-0 flex-col gap-3", className)}
-    >
+    <div data-slot="data-table" className={cn("flex min-w-0 flex-col gap-3", className)}>
       {(toolbarContent ?? searchKey) ? (
-        <DataTableToolbar
-          table={table}
-          searchKey={searchKey}
-          searchPlaceholder={searchPlaceholder}
-        >
+        <DataTableToolbar table={table} searchKey={searchKey} searchPlaceholder={searchPlaceholder}>
           {toolbarContent}
         </DataTableToolbar>
       ) : null}
@@ -329,10 +300,7 @@ function DataTable<TData, TValue>({
                   <TableHead key={header.id} colSpan={header.colSpan}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -359,10 +327,7 @@ function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
