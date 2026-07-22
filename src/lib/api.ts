@@ -1,6 +1,7 @@
 import { createFetch } from "@better-fetch/fetch";
 
 import { env } from "@/lib/env";
+import { clearIdentityToken, getIdentityToken } from "@/lib/identity-token";
 
 /**
  * Shared HTTP client (Better Fetch). Points at the backend template
@@ -14,4 +15,13 @@ export const apiClient = createFetch({
   baseURL: env.VITE_API_URL,
   credentials: "include",
   throw: false,
+  onRequest: async (context) => {
+    const token = await getIdentityToken();
+    if (token) context.headers.set("Authorization", `Bearer ${token}`);
+    return context;
+  },
+  onResponse: async (context) => {
+    if (context.response.status === 401) clearIdentityToken();
+    return context;
+  },
 });
