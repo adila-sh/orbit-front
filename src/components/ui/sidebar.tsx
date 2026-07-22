@@ -18,10 +18,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarIcon as PanelLeftIcon } from "@phosphor-icons/react";
+import { useAppStore } from "@/stores/app-store";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH_DEFAULT = 256;
 const SIDEBAR_WIDTH_MIN = 200;
 const SIDEBAR_WIDTH_MAX = 380;
 const SIDEBAR_WIDTH_MOBILE = "18rem";
@@ -66,18 +66,15 @@ function SidebarProvider({
 }) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
-  const [sidebarWidth, setSidebarWidthState] = React.useState(SIDEBAR_WIDTH_DEFAULT);
-
-  React.useEffect(() => {
-    const stored = Number(window.localStorage.getItem("orbit-sidebar-width"));
-    if (Number.isFinite(stored) && stored >= SIDEBAR_WIDTH_MIN && stored <= SIDEBAR_WIDTH_MAX)
-      setSidebarWidthState(stored);
-  }, []);
-  const setSidebarWidth = React.useCallback((width: number) => {
-    const next = Math.min(SIDEBAR_WIDTH_MAX, Math.max(SIDEBAR_WIDTH_MIN, width));
-    setSidebarWidthState(next);
-    window.localStorage.setItem("orbit-sidebar-width", String(next));
-  }, []);
+  const sidebarWidth = useAppStore((store) => store.sidebarWidth);
+  const setStoredSidebarWidth = useAppStore((store) => store.setSidebarWidth);
+  const setSidebarWidth = React.useCallback(
+    (width: number) => {
+      const next = Math.min(SIDEBAR_WIDTH_MAX, Math.max(SIDEBAR_WIDTH_MIN, width));
+      setStoredSidebarWidth(next);
+    },
+    [setStoredSidebarWidth],
+  );
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
