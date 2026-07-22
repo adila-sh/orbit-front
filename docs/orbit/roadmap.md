@@ -82,9 +82,9 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] Atalhos: `C` criar issue · `/` buscar · `G` depois `P` ir para Projects · `Esc` fechar diálogos.
 - [x] Hook `useKeyboardShortcuts` centralizado.
 
-### Fatia 7 — Roadmap (timeline/milestones)  ·  `[ ] pendente`
+### Fatia 7 — Roadmap (timeline/milestones)  ·  `🟡 em andamento`
 
-- [ ] Timeline com milestones (implementação futura aceitável).
+- [x] Timeline com milestones (implementação futura aceitável).
 - [ ] Dependências entre issues (se confirmado no backend).
 
 ---
