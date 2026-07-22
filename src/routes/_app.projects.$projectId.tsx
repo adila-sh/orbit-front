@@ -15,20 +15,20 @@ function ProjectOverview() {
   const project = useQuery(projectQueryOptions(projectId));
   if (project.isPending)
     return (
-      <div className="mx-auto max-w-5xl space-y-4">
+      <div className="space-y-4">
         <Skeleton className="h-10 w-1/2" />
         <Skeleton className="h-40 w-full" />
       </div>
     );
   if (project.isError || !project.data)
     return (
-      <p className="mx-auto max-w-5xl rounded-lg border border-destructive/30 p-6 text-sm text-destructive">
+      <p className="rounded-lg border border-destructive/30 p-6 text-sm text-destructive">
         Projeto não encontrado.
       </p>
     );
   const current = project.data;
   return (
-    <div className="mx-auto max-w-5xl space-y-8">
+    <div className="space-y-8">
       <Link
         to="/projects"
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"

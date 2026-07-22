@@ -55,7 +55,7 @@ function Dashboard() {
   const maxCount = Math.max(...counts.map((item) => item.count), 1);
 
   return (
-    <div className="mx-auto max-w-5xl space-y-8">
+    <div className="space-y-8">
       <div>
         <h2 className="text-2xl font-semibold tracking-tight">Olá, {firstName} 👋</h2>
         <p className="mt-1 text-sm text-muted-foreground">Uma visão rápida do seu workspace.</p>

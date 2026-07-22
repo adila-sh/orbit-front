@@ -93,21 +93,21 @@ function IssueDetail() {
 
   if (issue.isPending)
     return (
-      <div className="mx-auto max-w-5xl space-y-4">
+      <div className="space-y-4">
         <Skeleton className="h-8 w-2/3" />
         <Skeleton className="h-48 w-full" />
       </div>
     );
   if (issue.isError || !issue.data)
     return (
-      <p className="mx-auto max-w-5xl rounded-lg border border-destructive/30 p-6 text-sm text-destructive">
+      <p className="rounded-lg border border-destructive/30 p-6 text-sm text-destructive">
         Issue não encontrada.
       </p>
     );
 
   const current = issue.data;
   return (
-    <div className="mx-auto max-w-5xl space-y-6">
+    <div className="space-y-6">
       <Link
         to="/issues"
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
