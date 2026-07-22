@@ -50,6 +50,13 @@ export interface Comment {
   updatedAt: string;
 }
 
+export interface IssueDependency {
+  id: string;
+  issueId: string;
+  dependsOnIssueId: string;
+  createdAt: string;
+}
+
 export interface IssueFilters {
   projectId?: string;
   status?: IssueStatus;
@@ -108,6 +115,30 @@ export async function fetchComments(issueId: string) {
   const { data, error } = await apiClient<Comment[]>(`/v1/issues/${issueId}/comments`);
   if (error) throw new Error(error.message ?? "Não foi possível carregar os comentários.");
   return data ?? [];
+}
+
+export async function fetchDependencies(issueId: string) {
+  const { data, error } = await apiClient<IssueDependency[]>(`/v1/issues/${issueId}/dependencies`);
+  if (error) throw new Error(error.message ?? "Não foi possível carregar as dependências.");
+  return data ?? [];
+}
+
+export async function createDependency(issueId: string, dependsOnIssueId: string) {
+  const { data, error } = await apiClient<IssueDependency>(`/v1/issues/${issueId}/dependencies`, {
+    method: "POST",
+    body: { dependsOnIssueId },
+  });
+  if (error) throw new Error(error.message ?? "Não foi possível criar a dependência.");
+  return data;
+}
+
+export async function deleteDependency(issueId: string, dependsOnIssueId: string) {
+  const { data, error } = await apiClient<IssueDependency>(
+    `/v1/issues/${issueId}/dependencies/${dependsOnIssueId}`,
+    { method: "DELETE" },
+  );
+  if (error) throw new Error(error.message ?? "Não foi possível remover a dependência.");
+  return data;
 }
 
 export async function createComment(issueId: string, body: string) {

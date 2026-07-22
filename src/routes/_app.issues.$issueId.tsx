@@ -1,5 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeftIcon, Clock3Icon, MessageSquareIcon, SendIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  Clock3Icon,
+  MessageSquareIcon,
+  PlusIcon,
+  SendIcon,
+  Trash2Icon,
+} from "lucide-react";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -15,6 +22,8 @@ import {
 } from "@/features/issues/issue-meta";
 import {
   createComment,
+  createDependency,
+  deleteDependency,
   updateIssue,
   type IssuePriority,
   type IssueStatus,
@@ -22,7 +31,9 @@ import {
 import {
   activityQueryOptions,
   commentsQueryOptions,
+  dependenciesQueryOptions,
   issueQueryOptions,
+  issuesQueryOptions,
 } from "@/features/issues/queries";
 
 export const Route = createFileRoute("/_app/issues/$issueId")({
@@ -36,7 +47,10 @@ function IssueDetail() {
   const issue = useQuery(issueQueryOptions(issueId));
   const activity = useQuery(activityQueryOptions(issueId));
   const comments = useQuery(commentsQueryOptions(issueId));
+  const dependencies = useQuery(dependenciesQueryOptions(issueId));
+  const allIssues = useQuery(issuesQueryOptions());
   const [body, setBody] = useState("");
+  const [dependencyTarget, setDependencyTarget] = useState("");
   const commentMutation = useMutation({
     mutationFn: () => createComment(issueId, body),
     onSuccess: async () => {
@@ -63,6 +77,18 @@ function IssueDetail() {
         client.setQueryData(issueQueryOptions(issueId).queryKey, context.previous);
     },
     onSettled: () => client.invalidateQueries({ queryKey: issueQueryOptions(issueId).queryKey }),
+  });
+  const dependencyMutation = useMutation({
+    mutationFn: () => createDependency(issueId, dependencyTarget),
+    onSuccess: async () => {
+      setDependencyTarget("");
+      await client.invalidateQueries({ queryKey: dependenciesQueryOptions(issueId).queryKey });
+    },
+  });
+  const removeDependencyMutation = useMutation({
+    mutationFn: (dependsOnIssueId: string) => deleteDependency(issueId, dependsOnIssueId),
+    onSuccess: () =>
+      client.invalidateQueries({ queryKey: dependenciesQueryOptions(issueId).queryKey }),
   });
 
   if (issue.isPending)
@@ -95,6 +121,83 @@ function IssueDetail() {
             <p className="font-mono text-sm text-muted-foreground">{current.identifier}</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight">{current.title}</h1>
           </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Dependências</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {dependencies.isPending ? (
+                <Skeleton className="h-8 w-full" />
+              ) : dependencies.data?.length ? (
+                dependencies.data.map((dependency) => {
+                  const target = allIssues.data?.find(
+                    (item) => item.id === dependency.dependsOnIssueId,
+                  );
+                  return (
+                    <div
+                      key={dependency.id}
+                      className="flex items-center justify-between gap-2 rounded-md bg-muted/40 px-2 py-1.5 text-sm"
+                    >
+                      <Link
+                        to="/issues/$issueId"
+                        params={{ issueId: dependency.dependsOnIssueId }}
+                        className="truncate hover:underline"
+                      >
+                        {target?.identifier ?? dependency.dependsOnIssueId}
+                        {target && (
+                          <span className="ml-2 text-muted-foreground">{target.title}</span>
+                        )}
+                      </Link>
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-label="Remover dependência"
+                        onClick={() => removeDependencyMutation.mutate(dependency.dependsOnIssueId)}
+                      >
+                        <Trash2Icon className="size-3.5" />
+                      </Button>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-sm text-muted-foreground">Nenhuma dependência.</p>
+              )}
+              <div className="flex gap-2">
+                <select
+                  aria-label="Issue bloqueadora"
+                  className="h-9 min-w-0 flex-1 rounded-md border bg-background px-2 text-xs"
+                  value={dependencyTarget}
+                  onChange={(event) => setDependencyTarget(event.target.value)}
+                >
+                  <option value="">Adicionar issue bloqueadora</option>
+                  {allIssues.data
+                    ?.filter(
+                      (item) =>
+                        item.id !== issueId &&
+                        !dependencies.data?.some(
+                          (dependency) => dependency.dependsOnIssueId === item.id,
+                        ),
+                    )
+                    .map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.identifier} · {item.title}
+                      </option>
+                    ))}
+                </select>
+                <Button
+                  size="icon-sm"
+                  aria-label="Adicionar dependência"
+                  disabled={!dependencyTarget || dependencyMutation.isPending}
+                  onClick={() => dependencyMutation.mutate()}
+                >
+                  <PlusIcon className="size-4" />
+                </Button>
+              </div>
+              {dependencyMutation.error && (
+                <p className="text-xs text-destructive">{dependencyMutation.error.message}</p>
+              )}
+            </CardContent>
+          </Card>
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Descrição</CardTitle>

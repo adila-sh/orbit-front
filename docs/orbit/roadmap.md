@@ -1,7 +1,7 @@
 # Adila Orbit — Roadmap do Frontend
 
 **Data:** 2026-07-21
-**Status:** Fatias 2–6 concluídas; Fatia 7 aguardando suporte de dependências no backend
+**Status:** Fatias 2–6 concluídas; dependências do backend entregues para fechar a Fatia 7
 **Escopo deste doc:** objetivos de **frontend** (`front/`). Objetivos de backend em
 [`back/docs/orbit/roadmap.md`](../../../back/docs/orbit/roadmap.md).
 
@@ -83,12 +83,10 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] Atalhos: `C` criar issue · `/` buscar · `G` depois `P` ir para Projects · `Esc` fechar diálogos.
 - [x] Hook `useKeyboardShortcuts` centralizado.
 
-### Fatia 7 — Roadmap (timeline/milestones)  ·  `🟡 em andamento`
+### Fatia 7 — Roadmap (timeline/milestones)  ·  `✅ concluída`
 
 - [x] Timeline com milestones (implementação futura aceitável).
-- [ ] Dependências entre issues (se confirmado no backend).
-
-> Dependências entre issues permanecem pendentes: a API da Fatia 1 não possui modelo nem endpoint para relations.
+- [x] Dependências entre issues via API do backend.
 
 ---
 
