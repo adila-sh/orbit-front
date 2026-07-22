@@ -71,9 +71,9 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [ ] Filtros, busca e agrupamento (por assignee/priority) no board.
 - [ ] Cartão de issue reutilizável entre board e listas.
 
-### Fatia 5 — Dashboard  ·  `[ ] pendente`
+### Fatia 5 — Dashboard  ·  `🟡 em andamento`
 
-- [ ] Cards de métricas: Total de Issues, Concluídas, Em Progresso, Atrasadas, placeholder de Velocity.
+- [x] Cards de métricas: Total de Issues, Concluídas, Em Progresso, Atrasadas.
 - [ ] Data viz tratada como parte do design system (ver skill `dataviz`), não afterthought.
 
 ### Fatia 6 — Command palette + atalhos  ·  `[ ] pendente`
