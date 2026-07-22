@@ -75,6 +75,21 @@ export async function fetchIssues(filters: IssueFilters = {}) {
   return data?.data ?? [];
 }
 
+export interface CreateIssueInput {
+  projectId: string;
+  title: string;
+  description?: string;
+}
+
+export async function createIssue(input: CreateIssueInput) {
+  const { data, error } = await apiClient<Issue>("/v1/issues", {
+    method: "POST",
+    body: input,
+  });
+  if (error) throw new Error(error.message ?? "Não foi possível criar a issue.");
+  return data;
+}
+
 export async function fetchIssue(issueId: string) {
   const { data, error } = await apiClient<Issue>(`/v1/issues/${issueId}`);
   if (error) throw new Error(error.message ?? "Não foi possível carregar a issue.");
