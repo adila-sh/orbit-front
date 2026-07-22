@@ -9,7 +9,6 @@ import {
   useDraggable,
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GripVerticalIcon, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -18,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { moveIssue, type Issue, type IssuePriority, type IssueStatus } from "@/features/issues/api";
 import { IssueCardContent } from "@/features/issues/issue-card";
+import { IssueDialog } from "@/features/issues/issue-dialog";
 import { issuesQueryOptions } from "@/features/issues/queries";
 
 const COLUMNS: { id: IssueStatus; label: string }[] = [
@@ -37,19 +37,32 @@ const PRIORITY_LABELS = {
   urgent: "Urgente",
 } as const;
 
-function IssueCard({ issue, overlay = false }: { issue: Issue; overlay?: boolean }) {
+function IssueCard({
+  issue,
+  overlay = false,
+  onOpen,
+}: {
+  issue: Issue;
+  overlay?: boolean;
+  onOpen?: (issueId: string) => void;
+}) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: issue.id,
     data: { status: issue.status },
   });
   return (
-    <Link
+    <div
       ref={setNodeRef}
-      to="/issues/$issueId"
-      params={{ issueId: issue.id }}
       {...attributes}
+      onClick={() => onOpen?.(issue.id)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onOpen?.(issue.id);
+        }
+      }}
       style={{ transform: CSS.Translate.toString(transform) }}
-      className={`group block rounded-lg border bg-card p-3 shadow-xs transition-shadow hover:shadow-md ${
+      className={`group block cursor-pointer rounded-lg border bg-card p-3 text-left shadow-xs transition-shadow hover:shadow-md ${
         isDragging || overlay ? "opacity-70 shadow-lg" : ""
       }`}
     >
@@ -59,13 +72,13 @@ function IssueCard({ issue, overlay = false }: { issue: Issue; overlay?: boolean
           aria-label={`Mover ${issue.identifier}`}
           className="mt-0.5 cursor-grab text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing"
           {...listeners}
-          onClick={(event) => event.preventDefault()}
+          onClick={(event) => event.stopPropagation()}
         >
           <GripVerticalIcon className="size-4" />
         </button>
         <IssueCardContent issue={issue} />
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -73,10 +86,12 @@ function BoardColumn({
   status,
   issues,
   groupBy,
+  onOpen,
 }: {
   status: (typeof COLUMNS)[number];
   issues: Issue[];
   groupBy: "none" | "priority";
+  onOpen: (issueId: string) => void;
 }) {
   const { isOver, setNodeRef } = useDroppable({ id: status.id, data: { status: status.id } });
   return (
@@ -103,12 +118,12 @@ function BoardColumn({
                     {PRIORITY_LABELS[priority]}
                   </p>
                   {grouped.map((issue) => (
-                    <IssueCard key={issue.id} issue={issue} />
+                    <IssueCard key={issue.id} issue={issue} onOpen={onOpen} />
                   ))}
                 </div>
               );
             })
-          : issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}
+          : issues.map((issue) => <IssueCard key={issue.id} issue={issue} onOpen={onOpen} />)}
         {!issues.length && (
           <p className="p-4 text-center text-xs text-muted-foreground">Solte uma issue aqui.</p>
         )}
@@ -125,6 +140,7 @@ export function KanbanBoard() {
   const issues = useQuery(issuesQueryOptions({ q: search || undefined }));
   const [boardIssues, setBoardIssues] = useState<Issue[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [openIssueId, setOpenIssueId] = useState<string | null>(null);
   const moveMutation = useMutation({
     mutationFn: ({
       issueId,
@@ -240,11 +256,18 @@ export function KanbanBoard() {
               status={status}
               groupBy={groupBy}
               issues={visibleIssues.filter((issue) => issue.status === status.id)}
+              onOpen={setOpenIssueId}
             />
           ))}
         </div>
         <DragOverlay>{activeIssue ? <IssueCard issue={activeIssue} overlay /> : null}</DragOverlay>
       </DndContext>
+      <IssueDialog
+        issueId={openIssueId}
+        onOpenChange={(open) => {
+          if (!open) setOpenIssueId(null);
+        }}
+      />
     </div>
   );
 }
