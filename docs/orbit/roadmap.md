@@ -1,7 +1,7 @@
 # Adila Orbit — Roadmap do Frontend
 
 **Data:** 2026-07-21
-**Status:** Fatia 2 em andamento
+**Status:** Fatias 2–6 concluídas; Fatia 7 aguardando suporte de dependências no backend
 **Escopo deste doc:** objetivos de **frontend** (`front/`). Objetivos de backend em
 [`back/docs/orbit/roadmap.md`](../../../back/docs/orbit/roadmap.md).
 
@@ -43,18 +43,18 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 > Fatia 1 é **backend puro** (dados + API + seed) — sem trabalho de frontend.
 > O frontend começa na Fatia 2, consumindo a API real.
 
-### Fatia 2 — Shell do app + contexto de workspace  ·  `🟡 em andamento`
+### Fatia 2 — Shell do app + contexto de workspace  ·  `✅ concluída`
 
 - [x] Seletor de workspace na sidebar (lista via plugin `organization`; troca a org ativa).
 - [x] Atualizar `nav.ts`/`_app.tsx` com os itens: Dashboard, Projects, My Issues, Backlog, Boards, Roadmap, Settings.
 - [x] Sidebar redimensionável.
 - [x] Top navigation + breadcrumb.
-- [ ] `features/workspace/` — `queries.ts` (workspace atual, lista de projetos) + provider/contexto de workspace ativo.
+- [x] `features/workspace/` — `queries.ts` (workspace atual, lista de projetos) + provider/contexto de workspace ativo.
 - [x] Rotas TanStack Router base: `_app.projects`, `_app.issues` (My Issues), `_app.backlog`, `_app.board`, `_app.roadmap`, `_app.settings` (placeholders; Projects ligado à API).
 - [x] `features/workspace/api.ts` conectado ao endpoint `/v1/projects` via `lib/api.ts`.
 - [x] Estados: Loading Skeleton e Empty State consistentes na lista de Projects.
 
-### Fatia 3 — Backlog + Issue Detail + Comentários  ·  `🟡 em andamento`
+### Fatia 3 — Backlog + Issue Detail + Comentários  ·  `✅ concluída`
 
 - [x] **Projects**: lista de projetos (cards com ícone/cor/status) + Project Overview inicial.
 - [x] **Backlog**: lista com filtro de status e busca por título/identifier.
@@ -62,9 +62,9 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] **Issue Detail**: página dedicada com título, descrição, status, priority, type e estimate.
 - [x] **Comentários** e **timeline de atividade/histórico** conectados à API.
 - [x] Mutation otimista para status/priority; assignee fica para a integração de membros.
-- [ ] Componentes de UI: Badge de status/priority/type, Avatar de assignee, Empty/Skeleton.
+- [x] Componentes de UI: Badge de status/priority/type, Avatar de assignee, Empty/Skeleton.
 
-### Fatia 4 — Board Kanban (DnD)  ·  `🟡 em andamento`
+### Fatia 4 — Board Kanban (DnD)  ·  `✅ concluída`
 
 - [x] Board com **dnd-kit**: colunas por status, drag-and-drop reordenando + mudando status via `PATCH /issues/:id/move`.
 - [x] Optimistic reorder com rollback no erro (Better Fetch `error`).
@@ -87,6 +87,8 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 
 - [x] Timeline com milestones (implementação futura aceitável).
 - [ ] Dependências entre issues (se confirmado no backend).
+
+> Dependências entre issues permanecem pendentes: a API da Fatia 1 não possui modelo nem endpoint para relations.
 
 ---
 

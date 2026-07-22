@@ -7,6 +7,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 import { useAppStore } from "@/stores/app-store";
+import { WorkspaceProvider } from "@/features/workspace/workspace-context";
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
@@ -35,13 +36,15 @@ function AppLayout() {
 
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
-      <AppSidebar />
-      <SidebarInset>
-        <AppTopbar />
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-          <Outlet />
-        </main>
-      </SidebarInset>
+      <WorkspaceProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <AppTopbar />
+          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+            <Outlet />
+          </main>
+        </SidebarInset>
+      </WorkspaceProvider>
     </SidebarProvider>
   );
 }

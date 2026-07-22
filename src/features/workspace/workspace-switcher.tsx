@@ -13,13 +13,13 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth-client";
 import { projectsQueryOptions } from "@/features/workspace/queries";
+import { useWorkspace } from "@/features/workspace/workspace-context";
 
 export function WorkspaceSwitcher() {
   const queryClient = useQueryClient();
   const organizations = authClient.useListOrganizations();
-  const activeOrganization = authClient.useActiveOrganization();
-  const activeId = activeOrganization.data?.id;
-  const activeName = activeOrganization.data?.name ?? "Selecionar workspace";
+  const { organizationId: activeId, organizationName } = useWorkspace();
+  const activeName = organizationName ?? "Selecionar workspace";
 
   async function selectOrganization(organizationId: string) {
     if (organizationId === activeId) return;
