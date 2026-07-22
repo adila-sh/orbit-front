@@ -3,6 +3,7 @@ import { queryOptions } from "@tanstack/react-query";
 import {
   fetchActivity,
   fetchComments,
+  fetchDependencies,
   fetchIssue,
   fetchIssues,
   type IssueFilters,
@@ -30,4 +31,10 @@ export const commentsQueryOptions = (issueId: string) =>
   queryOptions({
     queryKey: ["orbit", "issue", issueId, "comments"] as const,
     queryFn: () => fetchComments(issueId),
+  });
+
+export const dependenciesQueryOptions = (issueId: string) =>
+  queryOptions({
+    queryKey: ["orbit", "issue", issueId, "dependencies"] as const,
+    queryFn: () => fetchDependencies(issueId),
   });
