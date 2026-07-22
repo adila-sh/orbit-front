@@ -22,7 +22,7 @@ const identityUserFields = {
  * servidor — organização (com teams), admin e os campos extras do usuário.
  */
 export const authClient = createAuthClient({
-  baseURL: env.VITE_API_URL,
+  baseURL: env.VITE_AUTH_URL,
   plugins: [
     organizationClient({ teams: { enabled: true } }),
     adminClient(),
