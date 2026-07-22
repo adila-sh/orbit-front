@@ -87,6 +87,7 @@ function Dashboard() {
               value={overdue}
               tone={overdue ? "danger" : "default"}
             />
+            <MetricCard icon={ActivityIcon} label="Velocity" value="—" />
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
             <Card className="lg:col-span-2">
@@ -138,7 +139,7 @@ function MetricCard({
 }: {
   icon: typeof ListTodoIcon;
   label: string;
-  value: number;
+  value: number | string;
   tone?: "default" | "success" | "danger";
 }) {
   const color =
