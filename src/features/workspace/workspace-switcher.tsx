@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -46,26 +47,27 @@ export function WorkspaceSwitcher() {
         <ChevronsUpDownIcon className="size-4 shrink-0 text-muted-foreground" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-64">
-        <DropdownMenuLabel>Seus workspaces</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {organizations.isPending ? (
-          <DropdownMenuItem disabled>Carregando...</DropdownMenuItem>
-        ) : organizations.data?.length ? (
-          organizations.data.map((organization) => (
-            <DropdownMenuItem
-              key={organization.id}
-              onClick={() => void selectOrganization(organization.id)}
-            >
-              <span className="grid size-6 place-items-center rounded bg-muted text-xs font-medium">
-                {organization.name.slice(0, 1).toUpperCase()}
-              </span>
-              <span className="truncate">{organization.name}</span>
-              {organization.id === activeId && <CheckIcon className="ml-auto size-4" />}
-            </DropdownMenuItem>
-          ))
-        ) : (
-          <DropdownMenuItem disabled>Nenhum workspace disponível</DropdownMenuItem>
-        )}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Seus workspaces</DropdownMenuLabel>
+          {organizations.isPending ? (
+            <DropdownMenuItem disabled>Carregando...</DropdownMenuItem>
+          ) : organizations.data?.length ? (
+            organizations.data.map((organization) => (
+              <DropdownMenuItem
+                key={organization.id}
+                onClick={() => void selectOrganization(organization.id)}
+              >
+                <span className="grid size-6 place-items-center rounded bg-muted text-xs font-medium">
+                  {organization.name.slice(0, 1).toUpperCase()}
+                </span>
+                <span className="truncate">{organization.name}</span>
+                {organization.id === activeId && <CheckIcon className="ml-auto size-4" />}
+              </DropdownMenuItem>
+            ))
+          ) : (
+            <DropdownMenuItem disabled>Nenhum workspace disponível</DropdownMenuItem>
+          )}
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled>
           <PlusIcon className="size-4" />
