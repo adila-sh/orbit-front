@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { FolderKanbanIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,6 +13,9 @@ export const Route = createFileRoute("/_app/projects")({
 });
 
 function Projects() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  if (pathname.startsWith("/projects/")) return <Outlet />;
+
   const projects = useQuery(projectsQueryOptions);
   return (
     <div className="space-y-8">
