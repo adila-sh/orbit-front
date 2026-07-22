@@ -8,6 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  AssigneeAvatar,
+  PriorityBadge,
+  StatusBadge,
+  TypeBadge,
+} from "@/features/issues/issue-meta";
+import {
   createComment,
   updateIssue,
   type IssuePriority,
@@ -178,7 +184,19 @@ function IssueDetail() {
               </label>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Tipo</span>
-                <span>{current.type}</span>
+                <TypeBadge type={current.type} />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Responsável</span>
+                <AssigneeAvatar assigneeId={current.assigneeId} />
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Status atual</span>
+                <StatusBadge status={current.status} />
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Prioridade atual</span>
+                <PriorityBadge priority={current.priority} />
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Estimativa</span>
