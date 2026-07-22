@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { CommandPalette } from "@/components/app/command-palette";
 
 const LABELS: Record<string, string> = {
   dashboard: "Dashboard",
@@ -31,6 +32,9 @@ export function AppTopbar() {
       >
         {label}
       </Link>
+      <div className="ml-auto">
+        <CommandPalette />
+      </div>
     </header>
   );
 }

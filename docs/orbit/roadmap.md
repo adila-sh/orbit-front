@@ -76,11 +76,11 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] Cards de métricas: Total de Issues, Concluídas, Em Progresso, Atrasadas e placeholder de Velocity.
 - [x] Visualização inicial de distribuição por status integrada ao dashboard.
 
-### Fatia 6 — Command palette + atalhos  ·  `[ ] pendente`
+### Fatia 6 — Command palette + atalhos  ·  `✅ concluída`
 
-- [ ] Command Palette (busca de issues/projetos/ações).
-- [ ] Atalhos: `C` criar issue · `/` buscar · `G` depois `P` ir para Projects · `Esc` fechar diálogos.
-- [ ] Hook `useKeyboardShortcuts` centralizado.
+- [x] Command Palette (busca de issues/projetos/ações).
+- [x] Atalhos: `C` criar issue · `/` buscar · `G` depois `P` ir para Projects · `Esc` fechar diálogos.
+- [x] Hook `useKeyboardShortcuts` centralizado.
 
 ### Fatia 7 — Roadmap (timeline/milestones)  ·  `[ ] pendente`
 
