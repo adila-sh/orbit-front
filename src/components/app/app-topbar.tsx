@@ -5,14 +5,13 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CommandPalette } from "@/components/app/command-palette";
 
 const LABELS: Record<string, string> = {
-  dashboard: "Dashboard",
-  projects: "Projects",
-  issues: "My Issues",
+  dashboard: "Painel",
+  projects: "Projetos",
+  issues: "Minhas issues",
   backlog: "Backlog",
-  board: "Boards",
+  board: "Quadro",
   roadmap: "Roadmap",
-  members: "Membros",
-  settings: "Settings",
+  settings: "Configurações",
   profile: "Perfil",
 };
 
