@@ -65,12 +65,12 @@ export function CommandPalette() {
       <Button
         variant="outline"
         size="sm"
-        className="hidden gap-2 text-muted-foreground sm:flex"
+        className="w-full justify-start gap-2 text-muted-foreground"
         onClick={() => setOpen(true)}
       >
         <SearchIcon className="size-4" />
         <span>Buscar</span>
-        <kbd className="rounded border bg-muted px-1.5 font-mono text-[10px]">/</kbd>
+        <kbd className="ml-auto rounded border bg-muted px-1.5 font-mono text-[10px]">/</kbd>
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-xl gap-0 overflow-hidden p-0">
