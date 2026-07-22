@@ -33,16 +33,18 @@ function RootLayout() {
       <HeadContent />
       <Outlet />
       <Toaster richColors position="bottom-right" />
-      <TanStackDevtools
-        config={{ position: "bottom-left" }}
-        plugins={[
-          {
-            name: "Tanstack Router",
-            render: <TanStackRouterDevtoolsPanel />,
-          },
-          TanStackQueryDevtools,
-        ]}
-      />
+      {import.meta.env.DEV && (
+        <TanStackDevtools
+          config={{ position: "bottom-left" }}
+          plugins={[
+            {
+              name: "Tanstack Router",
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            TanStackQueryDevtools,
+          ]}
+        />
+      )}
     </ThemeProvider>
   );
 }

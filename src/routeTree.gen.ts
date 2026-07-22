@@ -19,7 +19,6 @@ import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppRoadmapRouteImport } from './routes/_app.roadmap'
 import { Route as AppProjectsRouteImport } from './routes/_app.projects'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
-import { Route as AppMembersRouteImport } from './routes/_app.members'
 import { Route as AppIssuesRouteImport } from './routes/_app.issues'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBoardRouteImport } from './routes/_app.board'
@@ -75,11 +74,6 @@ const AppProfileRoute = AppProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AppRoute,
 } as any)
-const AppMembersRoute = AppMembersRouteImport.update({
-  id: '/members',
-  path: '/members',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppIssuesRoute = AppIssuesRouteImport.update({
   id: '/issues',
   path: '/issues',
@@ -118,7 +112,6 @@ export interface FileRoutesByFullPath {
   '/board': typeof AppBoardRoute
   '/dashboard': typeof AppDashboardRoute
   '/issues': typeof AppIssuesRouteWithChildren
-  '/members': typeof AppMembersRoute
   '/profile': typeof AppProfileRoute
   '/projects': typeof AppProjectsRouteWithChildren
   '/roadmap': typeof AppRoadmapRoute
@@ -135,7 +128,6 @@ export interface FileRoutesByTo {
   '/board': typeof AppBoardRoute
   '/dashboard': typeof AppDashboardRoute
   '/issues': typeof AppIssuesRouteWithChildren
-  '/members': typeof AppMembersRoute
   '/profile': typeof AppProfileRoute
   '/projects': typeof AppProjectsRouteWithChildren
   '/roadmap': typeof AppRoadmapRoute
@@ -154,7 +146,6 @@ export interface FileRoutesById {
   '/_app/board': typeof AppBoardRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/issues': typeof AppIssuesRouteWithChildren
-  '/_app/members': typeof AppMembersRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/projects': typeof AppProjectsRouteWithChildren
   '/_app/roadmap': typeof AppRoadmapRoute
@@ -174,7 +165,6 @@ export interface FileRouteTypes {
     | '/board'
     | '/dashboard'
     | '/issues'
-    | '/members'
     | '/profile'
     | '/projects'
     | '/roadmap'
@@ -191,7 +181,6 @@ export interface FileRouteTypes {
     | '/board'
     | '/dashboard'
     | '/issues'
-    | '/members'
     | '/profile'
     | '/projects'
     | '/roadmap'
@@ -209,7 +198,6 @@ export interface FileRouteTypes {
     | '/_app/board'
     | '/_app/dashboard'
     | '/_app/issues'
-    | '/_app/members'
     | '/_app/profile'
     | '/_app/projects'
     | '/_app/roadmap'
@@ -299,13 +287,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/members': {
-      id: '/_app/members'
-      path: '/members'
-      fullPath: '/members'
-      preLoaderRoute: typeof AppMembersRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/issues': {
       id: '/_app/issues'
       path: '/issues'
@@ -380,7 +361,6 @@ interface AppRouteChildren {
   AppBoardRoute: typeof AppBoardRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppIssuesRoute: typeof AppIssuesRouteWithChildren
-  AppMembersRoute: typeof AppMembersRoute
   AppProfileRoute: typeof AppProfileRoute
   AppProjectsRoute: typeof AppProjectsRouteWithChildren
   AppRoadmapRoute: typeof AppRoadmapRoute
@@ -392,7 +372,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppBoardRoute: AppBoardRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppIssuesRoute: AppIssuesRouteWithChildren,
-  AppMembersRoute: AppMembersRoute,
   AppProfileRoute: AppProfileRoute,
   AppProjectsRoute: AppProjectsRouteWithChildren,
   AppRoadmapRoute: AppRoadmapRoute,
