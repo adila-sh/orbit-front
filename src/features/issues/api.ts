@@ -51,6 +51,7 @@ export interface Comment {
 }
 
 export interface IssueFilters {
+  projectId?: string;
   status?: IssueStatus;
   assigneeId?: string;
   q?: string;
@@ -63,6 +64,7 @@ interface Paginated<T> {
 
 function queryString(filters: IssueFilters) {
   const params = new URLSearchParams({ limit: "100" });
+  if (filters.projectId) params.set("projectId", filters.projectId);
   if (filters.status) params.set("status", filters.status);
   if (filters.assigneeId) params.set("assigneeId", filters.assigneeId);
   if (filters.q) params.set("q", filters.q);
@@ -131,5 +133,17 @@ export async function updateIssue(
     body: input,
   });
   if (error) throw new Error(error.message ?? "Não foi possível atualizar a issue.");
+  return data;
+}
+
+export async function moveIssue(
+  issueId: string,
+  input: { status: IssueStatus; beforeId?: string; afterId?: string },
+) {
+  const { data, error } = await apiClient<Issue>(`/v1/issues/${issueId}/move`, {
+    method: "PATCH",
+    body: input,
+  });
+  if (error) throw new Error(error.message ?? "Não foi possível mover a issue.");
   return data;
 }

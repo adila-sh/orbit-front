@@ -64,12 +64,12 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] Mutation otimista para status/priority; assignee fica para a integração de membros.
 - [ ] Componentes de UI: Badge de status/priority/type, Avatar de assignee, Empty/Skeleton.
 
-### Fatia 4 — Board Kanban (DnD)  ·  `[ ] pendente`
+### Fatia 4 — Board Kanban (DnD)  ·  `🟡 em andamento`
 
-- [ ] Board com **dnd-kit**: colunas por status, drag-and-drop reordenando + mudando status via `PATCH /issues/:id/move`.
-- [ ] Optimistic reorder com rollback no erro (Better Fetch `error`).
-- [ ] Filtros, busca e agrupamento (por assignee/priority) no board.
-- [ ] Cartão de issue reutilizável entre board e listas.
+- [x] Board com **dnd-kit**: colunas por status, drag-and-drop reordenando + mudando status via `PATCH /issues/:id/move`.
+- [x] Optimistic reorder com rollback no erro (Better Fetch `error`).
+- [x] Filtros, busca e agrupamento (por assignee/priority) no board.
+- [x] Cartão de issue reutilizável entre board e listas.
 
 ### Fatia 5 — Dashboard  ·  `✅ concluída`
 
