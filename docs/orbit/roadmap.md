@@ -71,7 +71,7 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [ ] Filtros, busca e agrupamento (por assignee/priority) no board.
 - [ ] Cartão de issue reutilizável entre board e listas.
 
-### Fatia 5 — Dashboard  ·  `🟡 em andamento`
+### Fatia 5 — Dashboard  ·  `✅ concluída`
 
 - [x] Cards de métricas: Total de Issues, Concluídas, Em Progresso, Atrasadas e placeholder de Velocity.
 - [x] Visualização inicial de distribuição por status integrada ao dashboard.
