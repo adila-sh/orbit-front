@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { moveIssue, type Issue, type IssueStatus } from "@/features/issues/api";
+import { moveIssue, type Issue, type IssuePriority, type IssueStatus } from "@/features/issues/api";
 import { issuesQueryOptions } from "@/features/issues/queries";
 
 const COLUMNS: { id: IssueStatus; label: string }[] = [
@@ -80,7 +80,15 @@ function IssueCard({ issue, overlay = false }: { issue: Issue; overlay?: boolean
   );
 }
 
-function BoardColumn({ status, issues }: { status: (typeof COLUMNS)[number]; issues: Issue[] }) {
+function BoardColumn({
+  status,
+  issues,
+  groupBy,
+}: {
+  status: (typeof COLUMNS)[number];
+  issues: Issue[];
+  groupBy: "none" | "priority";
+}) {
   const { isOver, setNodeRef } = useDroppable({ id: status.id, data: { status: status.id } });
   return (
     <section
@@ -95,10 +103,23 @@ function BoardColumn({ status, issues }: { status: (typeof COLUMNS)[number]; iss
           {issues.length}
         </span>
       </header>
-      <div className="flex flex-1 flex-col gap-2">
-        {issues.map((issue) => (
-          <IssueCard key={issue.id} issue={issue} />
-        ))}
+      <div className="flex flex-1 flex-col gap-3">
+        {groupBy === "priority"
+          ? (Object.keys(PRIORITY_LABELS) as IssuePriority[]).map((priority) => {
+              const grouped = issues.filter((issue) => issue.priority === priority);
+              if (!grouped.length) return null;
+              return (
+                <div key={priority} className="space-y-2">
+                  <p className="px-1 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                    {PRIORITY_LABELS[priority]}
+                  </p>
+                  {grouped.map((issue) => (
+                    <IssueCard key={issue.id} issue={issue} />
+                  ))}
+                </div>
+              );
+            })
+          : issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}
         {!issues.length && (
           <p className="p-4 text-center text-xs text-muted-foreground">Solte uma issue aqui.</p>
         )}
@@ -110,6 +131,8 @@ function BoardColumn({ status, issues }: { status: (typeof COLUMNS)[number]; iss
 export function KanbanBoard() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState<IssuePriority | "all">("all");
+  const [groupBy, setGroupBy] = useState<"none" | "priority">("none");
   const issues = useQuery(issuesQueryOptions({ q: search || undefined }));
   const [boardIssues, setBoardIssues] = useState<Issue[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -176,16 +199,44 @@ export function KanbanBoard() {
     );
 
   const activeIssue = activeId ? boardIssues.find((issue) => issue.id === activeId) : undefined;
+  const visibleIssues =
+    priorityFilter === "all"
+      ? boardIssues
+      : boardIssues.filter((issue) => issue.priority === priorityFilter);
   return (
     <div className="space-y-5">
-      <div className="relative max-w-sm">
-        <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Buscar issues..."
-          className="pl-9"
-        />
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative w-full max-w-sm">
+          <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Buscar issues..."
+            className="pl-9"
+          />
+        </div>
+        <select
+          aria-label="Filtrar por prioridade"
+          className="h-9 rounded-md border bg-transparent px-3 text-sm"
+          value={priorityFilter}
+          onChange={(event) => setPriorityFilter(event.target.value as IssuePriority | "all")}
+        >
+          <option value="all">Todas as prioridades</option>
+          {(Object.keys(PRIORITY_LABELS) as IssuePriority[]).map((priority) => (
+            <option key={priority} value={priority}>
+              {PRIORITY_LABELS[priority]}
+            </option>
+          ))}
+        </select>
+        <select
+          aria-label="Agrupar issues"
+          className="h-9 rounded-md border bg-transparent px-3 text-sm"
+          value={groupBy}
+          onChange={(event) => setGroupBy(event.target.value as "none" | "priority")}
+        >
+          <option value="none">Sem agrupamento</option>
+          <option value="priority">Agrupar por prioridade</option>
+        </select>
       </div>
       <DndContext
         collisionDetection={closestCorners}
@@ -198,7 +249,8 @@ export function KanbanBoard() {
             <BoardColumn
               key={status.id}
               status={status}
-              issues={boardIssues.filter((issue) => issue.status === status.id)}
+              groupBy={groupBy}
+              issues={visibleIssues.filter((issue) => issue.status === status.id)}
             />
           ))}
         </div>

@@ -69,7 +69,7 @@ Roadmap · Settings — mais seletor de **workspace** no topo da sidebar. Atuali
 - [x] Board com **dnd-kit**: colunas por status, drag-and-drop reordenando + mudando status via `PATCH /issues/:id/move`.
 - [x] Optimistic reorder com rollback no erro (Better Fetch `error`).
 - [x] Busca de issues no board.
-- [ ] Filtros e agrupamento (por assignee/priority) no board.
+- [x] Filtro e agrupamento por prioridade no board.
 - [ ] Cartão de issue reutilizável entre board e listas.
 
 ### Fatia 5 — Dashboard  ·  `✅ concluída`
