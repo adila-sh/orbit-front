@@ -22,3 +22,9 @@ export async function fetchProjects(): Promise<Project[]> {
   if (error) throw new Error(error.message ?? "Não foi possível carregar os projetos.");
   return data?.data ?? [];
 }
+
+export async function fetchProject(projectId: string) {
+  const { data, error } = await apiClient<Project>(`/v1/projects/${projectId}`);
+  if (error) throw new Error(error.message ?? "Não foi possível carregar o projeto.");
+  return data;
+}
