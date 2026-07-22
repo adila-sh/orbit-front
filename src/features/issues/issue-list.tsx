@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { issuesQueryOptions } from "@/features/issues/queries";
 import type { IssueStatus } from "@/features/issues/api";
+import { IssueCardContent } from "@/features/issues/issue-card";
 
 const STATUS_LABELS: Record<IssueStatus, string> = {
   backlog: "Backlog",
@@ -83,10 +84,7 @@ export function IssueList({
                 className="grid grid-cols-[minmax(0,1fr)_130px_130px] items-center gap-4 px-4 py-3 transition-colors hover:bg-muted/40"
               >
                 <span className="min-w-0">
-                  <span className="mr-3 font-mono text-xs text-muted-foreground">
-                    {issue.identifier}
-                  </span>
-                  <span className="truncate text-sm font-medium">{issue.title}</span>
+                  <IssueCardContent issue={issue} compact />
                 </span>
                 <Badge variant="outline" className="w-fit">
                   {STATUS_LABELS[issue.status]}
