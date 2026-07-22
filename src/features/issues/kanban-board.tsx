@@ -14,10 +14,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GripVerticalIcon, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { moveIssue, type Issue, type IssuePriority, type IssueStatus } from "@/features/issues/api";
+import { IssueCardContent } from "@/features/issues/issue-card";
 import { issuesQueryOptions } from "@/features/issues/queries";
 
 const COLUMNS: { id: IssueStatus; label: string }[] = [
@@ -63,18 +63,7 @@ function IssueCard({ issue, overlay = false }: { issue: Issue; overlay?: boolean
         >
           <GripVerticalIcon className="size-4" />
         </button>
-        <div className="min-w-0 flex-1">
-          <p className="font-mono text-xs text-muted-foreground">{issue.identifier}</p>
-          <p className="mt-1 text-sm font-medium leading-snug">{issue.title}</p>
-        </div>
-      </div>
-      <div className="mt-3 flex items-center justify-between gap-2">
-        <Badge variant="outline" className="text-[10px]">
-          {PRIORITY_LABELS[issue.priority]}
-        </Badge>
-        {issue.projectKey && (
-          <span className="truncate text-[10px] text-muted-foreground">{issue.projectKey}</span>
-        )}
+        <IssueCardContent issue={issue} />
       </div>
     </Link>
   );
