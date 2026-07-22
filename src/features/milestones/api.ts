@@ -5,6 +5,8 @@ export interface Milestone {
   projectId: string;
   name: string;
   description: string | null;
+  startDate: string | null;
+  endDate: string | null;
   dueDate: string | null;
   status: string;
 }

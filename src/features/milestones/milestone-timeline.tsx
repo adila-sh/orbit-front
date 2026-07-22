@@ -11,6 +11,13 @@ function formatDate(date: string | null) {
   return new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(new Date(date));
 }
 
+function formatDateRange(startDate: string | null, endDate: string | null, dueDate: string | null) {
+  if (startDate && endDate) return `${formatDate(startDate)} – ${formatDate(endDate)}`;
+  if (startDate) return `A partir de ${formatDate(startDate)}`;
+  if (endDate) return `Até ${formatDate(endDate)}`;
+  return formatDate(dueDate);
+}
+
 export function MilestoneTimeline() {
   const projects = useQuery(projectsQueryOptions);
   const milestoneQueries = useQueries({
@@ -26,9 +33,11 @@ export function MilestoneTimeline() {
   );
   // oxlint-disable-next-line unicorn/no-array-sort -- copia local já evita mutar o resultado da query
   const timeline = [...(milestones ?? [])].sort((a, b) => {
-    if (!a.dueDate) return 1;
-    if (!b.dueDate) return -1;
-    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+    const aDate = a.startDate ?? a.endDate ?? a.dueDate;
+    const bDate = b.startDate ?? b.endDate ?? b.dueDate;
+    if (!aDate) return 1;
+    if (!bDate) return -1;
+    return new Date(aDate).getTime() - new Date(bDate).getTime();
   });
 
   if (projects.isPending || milestoneQueries.some((query) => query.isPending))
@@ -82,7 +91,7 @@ export function MilestoneTimeline() {
             )}
             <p className="flex items-center gap-2 text-xs text-muted-foreground">
               <CalendarDaysIcon className="size-3.5" />
-              {formatDate(milestone.dueDate)}
+              {formatDateRange(milestone.startDate, milestone.endDate, milestone.dueDate)}
             </p>
           </CardContent>
         </Card>
