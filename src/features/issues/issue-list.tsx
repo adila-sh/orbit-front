@@ -3,28 +3,12 @@ import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { issuesQueryOptions } from "@/features/issues/queries";
 import type { IssueStatus } from "@/features/issues/api";
-
-const STATUS_LABELS: Record<IssueStatus, string> = {
-  backlog: "Backlog",
-  todo: "A fazer",
-  in_progress: "Em andamento",
-  in_review: "Em revisão",
-  done: "Concluída",
-  closed: "Fechada",
-};
-
-const PRIORITY_LABELS = {
-  no_priority: "Sem prioridade",
-  low: "Baixa",
-  medium: "Média",
-  high: "Alta",
-  urgent: "Urgente",
-} as const;
+import { IssueCardContent } from "@/features/issues/issue-card";
+import { PriorityBadge, StatusBadge } from "@/features/issues/issue-meta";
 
 export function IssueList({
   title,
@@ -83,17 +67,10 @@ export function IssueList({
                 className="grid grid-cols-[minmax(0,1fr)_130px_130px] items-center gap-4 px-4 py-3 transition-colors hover:bg-muted/40"
               >
                 <span className="min-w-0">
-                  <span className="mr-3 font-mono text-xs text-muted-foreground">
-                    {issue.identifier}
-                  </span>
-                  <span className="truncate text-sm font-medium">{issue.title}</span>
+                  <IssueCardContent issue={issue} compact />
                 </span>
-                <Badge variant="outline" className="w-fit">
-                  {STATUS_LABELS[issue.status]}
-                </Badge>
-                <span className="text-sm text-muted-foreground">
-                  {PRIORITY_LABELS[issue.priority]}
-                </span>
+                <StatusBadge status={issue.status} />
+                <PriorityBadge priority={issue.priority} />
               </Link>
             ))}
           </div>

@@ -50,7 +50,15 @@ export interface Comment {
   updatedAt: string;
 }
 
+export interface IssueDependency {
+  id: string;
+  issueId: string;
+  dependsOnIssueId: string;
+  createdAt: string;
+}
+
 export interface IssueFilters {
+  projectId?: string;
   status?: IssueStatus;
   assigneeId?: string;
   q?: string;
@@ -63,6 +71,7 @@ interface Paginated<T> {
 
 function queryString(filters: IssueFilters) {
   const params = new URLSearchParams({ limit: "100" });
+  if (filters.projectId) params.set("projectId", filters.projectId);
   if (filters.status) params.set("status", filters.status);
   if (filters.assigneeId) params.set("assigneeId", filters.assigneeId);
   if (filters.q) params.set("q", filters.q);
@@ -108,6 +117,30 @@ export async function fetchComments(issueId: string) {
   return data ?? [];
 }
 
+export async function fetchDependencies(issueId: string) {
+  const { data, error } = await apiClient<IssueDependency[]>(`/v1/issues/${issueId}/dependencies`);
+  if (error) throw new Error(error.message ?? "Não foi possível carregar as dependências.");
+  return data ?? [];
+}
+
+export async function createDependency(issueId: string, dependsOnIssueId: string) {
+  const { data, error } = await apiClient<IssueDependency>(`/v1/issues/${issueId}/dependencies`, {
+    method: "POST",
+    body: { dependsOnIssueId },
+  });
+  if (error) throw new Error(error.message ?? "Não foi possível criar a dependência.");
+  return data;
+}
+
+export async function deleteDependency(issueId: string, dependsOnIssueId: string) {
+  const { data, error } = await apiClient<IssueDependency>(
+    `/v1/issues/${issueId}/dependencies/${dependsOnIssueId}`,
+    { method: "DELETE" },
+  );
+  if (error) throw new Error(error.message ?? "Não foi possível remover a dependência.");
+  return data;
+}
+
 export async function createComment(issueId: string, body: string) {
   const { data, error } = await apiClient<Comment>(`/v1/issues/${issueId}/comments`, {
     method: "POST",
@@ -131,5 +164,17 @@ export async function updateIssue(
     body: input,
   });
   if (error) throw new Error(error.message ?? "Não foi possível atualizar a issue.");
+  return data;
+}
+
+export async function moveIssue(
+  issueId: string,
+  input: { status: IssueStatus; beforeId?: string; afterId?: string },
+) {
+  const { data, error } = await apiClient<Issue>(`/v1/issues/${issueId}/move`, {
+    method: "PATCH",
+    body: input,
+  });
+  if (error) throw new Error(error.message ?? "Não foi possível mover a issue.");
   return data;
 }
