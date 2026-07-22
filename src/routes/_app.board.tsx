@@ -14,17 +14,12 @@ export const Route = createFileRoute("/_app/board")({
 
 function Board() {
   return (
-    <div className="mx-auto max-w-[1400px] space-y-8">
-      <div className="flex items-start gap-3">
-        <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
-          <KanbanSquareIcon className="size-5" />
-        </span>
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight">Quadro</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Escolha a visualização que melhor representa o trabalho do seu time.
-          </p>
-        </div>
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-2xl font-semibold tracking-tight">Quadro</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Escolha a visualização que melhor representa o trabalho do seu time.
+        </p>
       </div>
       <Tabs
         value={useAppStore((state) => state.boardView)}
