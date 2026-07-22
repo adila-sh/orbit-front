@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { projectsQueryOptions } from "@/features/workspace/queries";
 
 export const Route = createFileRoute("/_app/projects")({
-  head: () => ({ meta: [{ title: "Projects · Adila Orbit" }] }),
+  head: () => ({ meta: [{ title: "Projetos · Adila Orbit" }] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(projectsQueryOptions),
   component: Projects,
 });
@@ -17,7 +17,7 @@ function Projects() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">Projetos</h2>
         <p className="mt-1 text-sm text-muted-foreground">Projetos do workspace ativo.</p>
       </div>
       {projects.isPending ? (

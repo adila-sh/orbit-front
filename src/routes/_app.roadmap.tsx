@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapIcon } from "lucide-react";
 
 import { MilestoneTimeline } from "@/features/milestones/milestone-timeline";
 
@@ -11,16 +10,11 @@ export const Route = createFileRoute("/_app/roadmap")({
 function Roadmap() {
   return (
     <div className="space-y-8">
-      <div className="flex items-start gap-3">
-        <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
-          <MapIcon className="size-5" />
-        </span>
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight">Roadmap</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Timeline de milestones dos projetos do workspace ativo.
-          </p>
-        </div>
+      <div>
+        <h2 className="text-2xl font-semibold tracking-tight">Roadmap</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Timeline de milestones dos projetos do workspace ativo.
+        </p>
       </div>
       <MilestoneTimeline />
     </div>

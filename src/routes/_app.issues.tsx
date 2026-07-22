@@ -10,7 +10,7 @@ function MyIssues() {
   const { data: session } = authClient.useSession();
   return (
     <IssueList
-      title="My Issues"
+      title="Minhas issues"
       description="Issues atribuídas a você."
       filters={{ assigneeId: session?.user.id }}
     />

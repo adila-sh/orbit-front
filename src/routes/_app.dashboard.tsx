@@ -16,7 +16,7 @@ import { projectsQueryOptions } from "@/features/workspace/queries";
 import type { IssueStatus } from "@/features/issues/api";
 
 export const Route = createFileRoute("/_app/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard · Adila Orbit" }] }),
+  head: () => ({ meta: [{ title: "Painel · Adila Orbit" }] }),
   component: Dashboard,
 });
 
